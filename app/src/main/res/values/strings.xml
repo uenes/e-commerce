@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Desafio Stone</string>
     <string name="payment_title">Pagamento</string>
+    <string name="nome_cliente">Nome do titular</string>
+    <string name="numero_cartao">Número do Cartão</string>
+    <string name="vencimento_cartao">MMAA</string>
+    <string name="cvv_cartao">CVV</string>
+    <string name="valor_compra">R$ 0,00</string>
+    <string name="finalizar_compra">Finalizar Compra</string>
 </resources>

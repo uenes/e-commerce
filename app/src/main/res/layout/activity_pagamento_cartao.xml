@@ -12,5 +12,90 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/payment_title" />
+        android:text="@string/payment_title"
+        android:id="@+id/payment_title" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/nome_cliente"
+        android:ems="10"
+        android:id="@+id/nome_cliente"
+        android:layout_below="@+id/payment_title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="42dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:hint="@string/numero_cartao"
+        android:id="@+id/numero_cartao"
+        android:layout_below="@+id/nome_cliente"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="6"
+        android:maxLength="4"
+        android:hint="@string/vencimento_cartao"
+        android:id="@+id/vencimento_cartao"
+        android:layout_below="@+id/numero_cartao"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="3"
+        android:maxLength="3"
+        android:hint="@string/cvv_cartao"
+        android:id="@+id/CVV_cartao"
+        android:layout_below="@+id/vencimento_cartao"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/bandeira_cartao"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/CVV_cartao" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:hint="@string/valor_compra"
+        android:id="@+id/valor_compra"
+        android:layout_below="@+id/bandeira_cartao"
+        android:layout_toRightOf="@+id/bandeira_cartao"
+        android:layout_toEndOf="@+id/bandeira_cartao" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/finalizar_compra"
+        android:id="@+id/finalizar_compra"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/numero_cartao"
+        android:layout_alignEnd="@+id/numero_cartao" />
+
+
 </RelativeLayout>
