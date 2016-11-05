@@ -18,17 +18,24 @@ public class TransacaoDb {
         transacaoDbHelper = new TransacaoDbHelper(context);
     }
 
-    public void salvarTransacao(Transacao t) {
+    public long salvarTransacao(Transacao t) {
         SQLiteDatabase db = transacaoDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(Transacao.COLUMN_NOME_CLIENTE, t.getNomeCliente());
         values.put(Transacao.COLUMN_NUMERO_CARTAO, t.getNumeroCartao());
         values.put(Transacao.COLUMN_CVV, t.getCvv());
+        values.put(Transacao.COLUMN_BANDEIRA, t.getBandeiraCartao());
         values.put(Transacao.COLUMN_VENCIMENTO, t.getVencimentoCartao());
         values.put(Transacao.COLUMN_VALOR, t.getValor());
 
-        long newRowId = db.insert(Transacao.TABLE_NAME, null, values);
+        return db.insert(Transacao.TABLE_NAME, null, values);
+    }
+
+    public void deletarTransacao(Long id) {
+        SQLiteDatabase db = transacaoDbHelper.getWritableDatabase();
+
+        db.delete(Transacao.TABLE_NAME, Transacao._ID + " = ? " , new String[]{Long.toString(id)});
     }
 
     public Integer countTransacoesDb() {
@@ -50,13 +57,13 @@ public class TransacaoDb {
                 Transacao.COLUMN_NOME_CLIENTE + " DESC";
 
         Cursor c = db.query(
-                Transacao.TABLE_NAME,                     // The table to query
-                projection,                               // The columns to return
-                selection,                                // The columns for the WHERE clause
-                selectionArgs,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
+                Transacao.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
         );
 
         return c.getCount();

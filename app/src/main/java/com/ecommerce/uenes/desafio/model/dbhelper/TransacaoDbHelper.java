@@ -20,13 +20,14 @@ public class TransacaoDbHelper  extends SQLiteOpenHelper {
                     Transacao.COLUMN_NOME_CLIENTE + TEXT_TYPE + COMMA_SEP +
                     Transacao.COLUMN_NUMERO_CARTAO + INT_TYPE + COMMA_SEP +
                     Transacao.COLUMN_VENCIMENTO + TEXT_TYPE + COMMA_SEP +
+                    Transacao.COLUMN_BANDEIRA + TEXT_TYPE + COMMA_SEP +
                     Transacao.COLUMN_CVV + INT_TYPE + COMMA_SEP +
                     Transacao.COLUMN_VALOR + REAL_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + Transacao.TABLE_NAME;
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Transacao.db";
 
     public TransacaoDbHelper(Context context) {

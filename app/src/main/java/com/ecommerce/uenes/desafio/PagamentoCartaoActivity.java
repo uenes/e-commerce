@@ -12,10 +12,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.uenes.desafio.controller.Communication;
 import com.ecommerce.uenes.desafio.model.TransacaoDb;
 import com.ecommerce.uenes.desafio.model.contract.TransacaoContrato.Transacao;
 
 import com.ecommerce.uenes.desafio.model.dbhelper.TransacaoDbHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class PagamentoCartaoActivity extends AppCompatActivity {
     private TransacaoDb transacaoDb;
@@ -43,22 +49,54 @@ public class PagamentoCartaoActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (isAllFieldsFilled()) {
-                    transacaoDb = new TransacaoDb(getApplicationContext());
-                    transacaoDb.salvarTransacao(getDataFromScreen());
-                } else {
-                    Context context = getApplicationContext();
-                    CharSequence text = "Todos os campos devem ser preenchidos";
-                    int duration = Toast.LENGTH_SHORT;
+                    if (isBandeiraSuportada()) {
+                        // Salvar no Banco
+                        transacaoDb = new TransacaoDb(getApplicationContext());
+                        Transacao transacao = getDataFromScreen();
+                        Long id = transacaoDb.salvarTransacao(transacao);
 
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
+                        // Enviar JSON para servidor
+                        Communication communication = new Communication();
+                        try {
+                            if (communication.enviarTransacao(transacao)) {
+                                displayMessage("Compra realizada com sucesso");
+                            } else {
+                                displayMessage("Falha de conexão. Tente novamente.");
+                                transacaoDb.deletarTransacao(id);
+                            }
+                        } catch (JSONException e) {
+                            displayMessage("Falha no envio. Tente novamente.");
+                            transacaoDb.deletarTransacao(id);
+                        }
+                    } else {
+                        displayMessage("Aceitamos somente VISA e MASTERCARD");
+                    }
+                } else {
+                    displayMessage("Todos os campos devem ser preenchidos");
                 }
             }
         });
     }
 
+    private boolean isBandeiraSuportada() {
+        TextView bandeira = (TextView)findViewById(R.id.bandeira_cartao);
+
+        if (bandeira.getText().toString().equals("VISA") ||
+                bandeira.getText().toString().equals("MASTERCARD"))
+            return true;
+
+        return false;
+    }
+
+    private void displayMessage(String message) {
+        Context context = getApplicationContext();
+
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
 
+    // Descobrir bandeira a partir do numero do cartão
     public String getBandeira(CharSequence numeroCartao) {
         String bandeira = "";
         if ((numeroCartao != null) && (numeroCartao.length() > 0) ) {
@@ -80,14 +118,16 @@ public class PagamentoCartaoActivity extends AppCompatActivity {
         EditText vencimento = (EditText)findViewById(R.id.vencimento_cartao);
         EditText cvv = (EditText)findViewById(R.id.CVV_cartao);
         EditText valor = (EditText)findViewById(R.id.valor_compra);
+        TextView bandeira = (TextView)findViewById(R.id.bandeira_cartao);
 
         if (nome != null && vencimento != null && numero != null && cvv != null && valor != null) {
             t.setNomeCliente(nome.getText().toString());
-            Integer n = Integer.parseInt(numero.getText().toString());
+            Long n = Long.parseLong(numero.getText().toString());
             t.setNumeroCartao(n);
             t.setVencimentoCartao(vencimento.getText().toString());
             Integer c = Integer.parseInt(cvv.getText().toString());
             t.setCvv(c);
+            t.setBandeiraCartao(bandeira.getText().toString());
             Float v = Float.parseFloat(valor.getText().toString());
             t.setValor(v);
         } else {

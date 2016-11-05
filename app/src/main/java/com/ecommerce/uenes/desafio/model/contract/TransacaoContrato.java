@@ -11,12 +11,14 @@ public final class TransacaoContrato {
         public static final String COLUMN_NOME_CLIENTE = "nomeCliente";
         public static final String COLUMN_NUMERO_CARTAO = "numeroCartao";
         public static final String COLUMN_VENCIMENTO = "vencimento";
+        public static final String COLUMN_BANDEIRA = "bandeira";
         public static final String COLUMN_CVV = "cvv";
         public static final String COLUMN_VALOR = "valor";
 
         private String nomeCliente;
-        private Integer numeroCartao;
+        private Long numeroCartao;
         private String vencimentoCartao;
+        private String bandeiraCartao;
         private Integer Cvv;
         private Float valor;
 
@@ -28,11 +30,11 @@ public final class TransacaoContrato {
             this.nomeCliente = nomeCliente;
         }
 
-        public Integer getNumeroCartao() {
+        public Long getNumeroCartao() {
             return numeroCartao;
         }
 
-        public void setNumeroCartao(Integer numeroCartao) {
+        public void setNumeroCartao(Long numeroCartao) {
             this.numeroCartao = numeroCartao;
         }
 
@@ -58,6 +60,14 @@ public final class TransacaoContrato {
 
         public void setValor(Float valor) {
             this.valor = valor;
+        }
+
+        public String getBandeiraCartao() {
+            return bandeiraCartao;
+        }
+
+        public void setBandeiraCartao(String bandeiraCartao) {
+            this.bandeiraCartao = bandeiraCartao;
         }
     }
 }
